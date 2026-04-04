@@ -49,33 +49,33 @@ public class LoginController {
 	{
 		return "reg";
 	}
+	@GetMapping("/logout")
+	public String logoutUser(HttpServletRequest request)
+	{
+		HttpSession session= request.getSession();
+		session.invalidate();
+		return "index";
+	}
 
 	@RequestMapping(value = "/checkUser",method = RequestMethod.POST)
 	public String checkUser(UserInfo u,Model m,HttpServletRequest request)
 	{
 		UserInfo user= daoimpl.checkUserCredential(u);
 		
-		if(user!=null)
-		{
+		if(user!=null){
 			HttpSession session= request.getSession();
 			if(session!=null) {
-				m.addAttribute("msg","Welcome To Universal Informatics");
-				m.addAttribute("dp",user.getDp());
-				
+				m.addAttribute("msg","Welcome To OUR BANK");			
 				return "home";
 			}
 			return "index";
-		}
-		else
-		{
-			m.addAttribute("msg","Invelid Username / Password");
+		}else{
+			m.addAttribute("msg","Invalid Username / Password");
 			return "index";
 		}
 	
 	}
 	
-//	@RequestParam("dp")MultipartFile file)throws Exception
-
 	
 	@PostMapping("/addNewUser")
 	public ModelAndView addNew(HttpServletRequest request,
@@ -85,7 +85,6 @@ public class LoginController {
             HttpSession session)
 	{
 		
-		System.out.println("heeijfie");
 		ModelAndView mv=null;
 		
 		try {

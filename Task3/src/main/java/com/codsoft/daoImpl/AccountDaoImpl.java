@@ -65,15 +65,33 @@ public class AccountDaoImpl implements AccountDao{
 	}
 
 	@Override
-	public double deposit(int accno, double amout) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Account deposit(int accno, double amout) {
+		try {
+			Account a= searchAcc(accno);
+		    double newAmt= a.getBal()+amout;
+			a.setBal(newAmt);
+			return a;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;		
+		}
 	}
 
 	@Override
-	public double withdraw(int accno, double amout) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Account withdraw(int accno, double amout) {
+		try {
+			Account a= searchAcc(accno);
+			if(a.getBal()>amout) {
+				double newAmt= a.getBal()-amout;
+				a.setBal(newAmt);
+				return a;
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;		
+		}
 	}
 
 	@Override

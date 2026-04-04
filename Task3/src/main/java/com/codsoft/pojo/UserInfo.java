@@ -3,23 +3,17 @@ package com.codsoft.pojo;
 public class UserInfo {
 	private String username;
 	private String password;
-	private String dp;
 	public UserInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserInfo(String username, String password, String dp) {
+	public UserInfo(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.dp=dp;
+
 	}
-	public String getDp() {
-		return dp;
-	}
-	public void setDp(String dp) {
-		this.dp = dp;
-	}
+	
 	public String getUsername() {
 		return username;
 	}

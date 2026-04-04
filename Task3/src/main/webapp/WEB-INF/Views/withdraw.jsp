@@ -11,10 +11,10 @@
 <%@include file="header.jsp" %>
 <h1>
 <%
-String amt= (String)request.getAttribute("curamt");
-if(amt!=null)
-	out.print(amt);
-
+Double amt = (Double) request.getAttribute("curamt");
+if (amt != null) {
+    out.print(amt + " acc bal remained\n");
+}
 String msg = (String)request.getAttribute("msg");
 if(msg!=null)
 	out.print(msg);

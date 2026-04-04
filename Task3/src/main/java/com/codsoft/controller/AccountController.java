@@ -94,42 +94,51 @@ public class AccountController {
 		if(op.equals("Withdraw"))
 			return "withdraw";
 		else
-			return "deposit";
+			return "deposite";
 			
 	}
+	
 	@PostMapping("/accaction")
-	public String accaction(Account a,@RequestParam("amt")String amt,
+	public String accaction(
+			Account a,@RequestParam("amt")String amt,
 			@RequestParam("b1")String op,Model m)
 	{
 		double amount = Double.parseDouble(amt);
+	
 		if(op.equals("Withdraw"))
 		{
-			a.setBal(a.getBal()-amount);
-			m.addAttribute("curamt",a.getBal());
-			if(daoimpl.updateAcc(a)){
-				m.addAttribute("msg","Amount Withdraw Successfully");
-			    return "withdraw";
+			Account afterWihdraw= daoimpl.withdraw(a.getAccno(), amount);
+			if(afterWihdraw!=null) {
+				m.addAttribute("curamt",afterWihdraw.getBal());
+				if(daoimpl.updateAcc(afterWihdraw)){
+					m.addAttribute("msg","Amount Withdraw Successfully");
+				    return "withdraw";
+				}
+				else{
+					m.addAttribute("msg","error occured, check bal!! ");
+				 	return "withdraw";
+				}
 			}
 			else{
-				m.addAttribute("msg","Amount Withdraw Successfully");
+				m.addAttribute("msg","error occured, check bal!! ");
 			 	return "withdraw";
 			}
 		}
-		if(op.equals("deposit"))
+		if(op.equals("deposite"))
 		{
-			a.setBal(a.getBal()+amount);
-			m.addAttribute("curamt",a.getBal());
-			if(daoimpl.updateAcc(a)){
+			Account afterDep= daoimpl.deposit(a.getAccno(), amount);
+			m.addAttribute("curamt",afterDep.getBal());
+			if(daoimpl.updateAcc(afterDep)){
 				m.addAttribute("msg","Amount Deposited Successfully");
-			    return "withdraw";
+			    return "deposite";
 			}
 			else{
 				m.addAttribute("msg","Deposite failed");
-			 	return "withdraw";
+			 	return "deposite";
 			}
 		}
 		m.addAttribute("msg","error occur");
-		return "accaction";
+		return "accoperation";
 		
 	}
 	
