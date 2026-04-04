@@ -1,5 +1,7 @@
 package com.codsoft.cc.controller;
 
+import java.util.Currency;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,14 @@ public class CurrencyController {
 			@RequestParam(value="amt")Double amt
 			){
 		try {
+			Currency curFrom= Currency.getInstance(from);
+			String symbolFrom=curFrom.getSymbol();
+			Currency curTo= Currency.getInstance(to);
+			String symbolTo=curTo.getSymbol();
 			Double rate= currencyService.getExchangeRate(from, to);
 			Double convertedAmt= amt*rate;
 			
-			return ResponseEntity.ok().body("Original Amount:"+amt+"\n Exchange Rate:"+rate+"\nConverted Amount:"+convertedAmt);
+			return ResponseEntity.ok().body("Original Amount:"+amt+symbolFrom+"\n Exchange Rate:"+rate+"\nConverted Amount:"+convertedAmt+symbolTo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body("Exception occured: "+e.getMessage());
